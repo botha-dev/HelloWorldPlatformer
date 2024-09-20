@@ -1,7 +1,12 @@
-[gd_scene load_steps=25 format=3 uid="uid://er3ayylbfldi"]
+[gd_scene load_steps=27 format=3 uid="uid://er3ayylbfldi"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_6mr0h"]
 [ext_resource type="Texture2D" uid="uid://b71cqmw7oj4jv" path="res://assets/sprites/knight.png" id="1_6t8lm"]
+[ext_resource type="FontFile" uid="uid://dcbku5aw8cp27" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="3_we8j8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0dca"]
+atlas = ExtResource("1_6t8lm")
+region = Rect2(64, 160, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jbqyb"]
 atlas = ExtResource("1_6t8lm")
@@ -87,6 +92,14 @@ region = Rect2(224, 96, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_o0dca")
+}],
+"loop": true,
+"name": &"air",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_jbqyb")
 }, {
 "duration": 1.0,
@@ -167,11 +180,22 @@ script = ExtResource("1_6mr0h")
 z_index = 5
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_4eh5p")
-animation = &"idle"
+animation = &"air"
 autoplay = "idle"
-frame_progress = 0.900596
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_6w3q2")
 debug_color = Color(0.240056, 0.515047, 0.976424, 0.42)
+
+[node name="score" type="Label" parent="."]
+offset_left = -20.0
+offset_top = -35.0
+offset_right = 20.0
+offset_bottom = -12.0
+theme_override_colors/font_color = Color(0.267267, 0.672481, 0.597045, 1)
+theme_override_fonts/font = ExtResource("3_we8j8")
+theme_override_font_sizes/font_size = 8
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
