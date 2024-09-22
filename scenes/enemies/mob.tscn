@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://btbwu88dh1g36" path="res://assets/sprites/slime_green.png" id="1_aaihw"]
 [ext_resource type="Script" path="res://scripts/mob.gd" id="1_ogyy0"]
-[ext_resource type="PackedScene" uid="uid://c0ky1ix11f0n" path="res://scenes/killzone.tscn" id="2_4dxt3"]
+[ext_resource type="PackedScene" uid="uid://c0ky1ix11f0n" path="res://scenes/gameplayElements/killzone.tscn" id="2_4dxt3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pbehk"]
 atlas = ExtResource("1_aaihw")
@@ -53,6 +53,7 @@ autoplay = "Animated"
 frame_progress = 0.717335
 
 [node name="Killzone" parent="." instance=ExtResource("2_4dxt3")]
+damage = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
 position = Vector2(0, 6)
