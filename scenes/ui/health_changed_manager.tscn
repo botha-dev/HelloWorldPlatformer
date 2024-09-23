@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://vge8ty2l3sh8"]
+[gd_scene load_steps=3 format=3 uid="uid://vge8ty2l3sh8"]
 
 [ext_resource type="Script" path="res://scripts/ui/health_changed_manager.gd" id="1_ecken"]
+[ext_resource type="FontFile" uid="uid://dcbku5aw8cp27" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_1iqlc"]
 
 [node name="HealthChangeManager" type="Control"]
 layout_mode = 3
@@ -18,9 +19,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(4, 4)
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
+scale = Vector2(2, 2)
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
@@ -29,12 +30,23 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
 
+[node name="HealthLabel" type="Label" parent="MarginContainer/HealthBarPosition"]
+layout_mode = 0
+offset_right = 110.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.977937, 0.977937, 0.977937, 1)
+theme_override_fonts/font = ExtResource("2_1iqlc")
+theme_override_font_sizes/font_size = 16
+text = "Health: "
+
 [node name="HealthBar" type="ProgressBar" parent="MarginContainer/HealthBarPosition"]
-modulate = Color(0.00748273, 0.296203, 0.094221, 1)
+modulate = Color(0.00784314, 1, 0.0941176, 1)
 texture_filter = 1
 layout_mode = 2
-offset_right = 40.0
+offset_left = 104.0
+offset_right = 144.0
 offset_bottom = 4.0
+scale = Vector2(3.04, 3.72)
 size_flags_vertical = 1
 max_value = 10.0
 step = 1.0

@@ -1,8 +1,9 @@
 extends Node
 class_name Damageable
 
-signal on_hit_received(body: Node, hit_for: int)
+signal on_hit_received(body: Node, hit_for: int, hit_from: Vector2)
 
+@export var max_health: int = 10
 @export var health: int = 10:
 	set(value):
 		var amount_changed = health - value
@@ -11,13 +12,6 @@ signal on_hit_received(body: Node, hit_for: int)
 	get:
 		return health
 
-func hit(damage:int):
+func hit(damage: int, hit_from: Vector2):
 	health -= damage
-	emit_signal("on_hit_received", get_parent(), damage)
-	#print_debug("health: " + str(health))
-	#if health <= 0: 
-		#var parent = get_parent()
-		#if parent is PlayerController:			
-			#get_tree().reload_current_scene()
-		#
-		#parent.queue_free()
+	emit_signal("on_hit_received", get_parent(), damage, hit_from)

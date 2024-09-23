@@ -1,8 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://chckttabktxc6"]
+[gd_scene load_steps=30 format=3 uid="uid://chckttabktxc6"]
 
 [ext_resource type="Texture2D" uid="uid://btbwu88dh1g36" path="res://assets/sprites/slime_green.png" id="1_aaihw"]
 [ext_resource type="Script" path="res://scripts/mob.gd" id="1_ogyy0"]
 [ext_resource type="PackedScene" uid="uid://c0ky1ix11f0n" path="res://scenes/gameplayElements/killzone.tscn" id="2_4dxt3"]
+[ext_resource type="Script" path="res://scripts/damageable.gd" id="3_qh8r5"]
+[ext_resource type="Script" path="res://scripts/state-machines/character_state_machine.gd" id="6_17drk"]
+[ext_resource type="Script" path="res://scripts/state-machines/state.gd" id="7_2op07"]
+[ext_resource type="Script" path="res://scripts/enemy/DeadState.gd" id="7_n8kea"]
+[ext_resource type="Script" path="res://scripts/state-machines/states/HitState.gd" id="8_2tkrm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3owfh"]
+size = Vector2(12, 9)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pbehk"]
 atlas = ExtResource("1_aaihw")
@@ -41,26 +49,201 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8mtn2"]
-size = Vector2(12, 14)
+size = Vector2(14, 8)
 
-[node name="Mob" type="Node2D"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dgph6"]
+animation = &"dead"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7omk4"]
+animation = &"hit"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0qlyg"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jgfc4"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a15nv"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gv0hs"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kqfef"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kry4c"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_rdq7v"]
+states/dead/node = SubResource("AnimationNodeAnimation_dgph6")
+states/dead/position = Vector2(634, 100)
+states/hit/node = SubResource("AnimationNodeAnimation_7omk4")
+states/hit/position = Vector2(500, 100)
+states/walk/node = SubResource("AnimationNodeAnimation_0qlyg")
+states/walk/position = Vector2(368, 100)
+transitions = ["Start", "walk", SubResource("AnimationNodeStateMachineTransition_jgfc4"), "walk", "hit", SubResource("AnimationNodeStateMachineTransition_a15nv"), "hit", "walk", SubResource("AnimationNodeStateMachineTransition_gv0hs"), "hit", "dead", SubResource("AnimationNodeStateMachineTransition_kqfef"), "dead", "End", SubResource("AnimationNodeStateMachineTransition_kry4c")]
+
+[sub_resource type="Animation" id="Animation_s4413"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_7mxws"]
+resource_name = "dead"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [3, 2, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_521ts"]
+resource_name = "hit"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [8, 9, 10, 11]
+}
+
+[sub_resource type="Animation" id="Animation_0l2px"]
+resource_name = "walk"
+length = 1.00001
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [2, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_51kdx"]
+_data = {
+"RESET": SubResource("Animation_s4413"),
+"dead": SubResource("Animation_7mxws"),
+"hit": SubResource("Animation_521ts"),
+"walk": SubResource("Animation_0l2px")
+}
+
+[node name="Mob" type="CharacterBody2D" node_paths=PackedStringArray("hit_state", "dead_state")]
+collision_layer = 12
+floor_stop_on_slope = false
 script = ExtResource("1_ogyy0")
+floor_raycast_position_left = Vector2(-4, 0)
+floor_raycast_position_right = Vector2(4, 0)
+hit_state = NodePath("CharacterStateMachine/HitState")
+dead_state = NodePath("CharacterStateMachine/dead")
+
+[node name="BodyCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 7.5)
+shape = SubResource("RectangleShape2D_3owfh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_aaihw")
+hframes = 4
+vframes = 3
+frame = 4
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = SubResource("SpriteFrames_ah6s4")
 animation = &"Animated"
 autoplay = "Animated"
-frame_progress = 0.717335
+frame_progress = 0.740609
 
-[node name="Killzone" parent="." instance=ExtResource("2_4dxt3")]
-damage = 3
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
-position = Vector2(0, 6)
-shape = SubResource("RectangleShape2D_8mtn2")
+[node name="Damageable" type="Node" parent="."]
+script = ExtResource("3_qh8r5")
+max_health = 1
+health = 1
 
 [node name="RayCastRight" type="RayCast2D" parent="."]
 target_position = Vector2(7, 0)
 
 [node name="RayCastLeft" type="RayCast2D" parent="."]
 target_position = Vector2(-7, 0)
+
+[node name="RayCastFloor" type="RayCast2D" parent="."]
+position = Vector2(-4, 0)
+target_position = Vector2(0, 15)
+
+[node name="Killzone" parent="." instance=ExtResource("2_4dxt3")]
+collision_layer = 0
+damage = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_8mtn2")
+debug_color = Color(0.914947, 8.29774e-05, 0.714501, 0.42)
+
+[node name="CharacterStateMachine" type="Node" parent="." node_paths=PackedStringArray("character", "animation_tree", "current_state")]
+script = ExtResource("6_17drk")
+character = NodePath("..")
+animation_tree = NodePath("../AnimationTree")
+current_state = NodePath("walk")
+
+[node name="walk" type="Node" parent="CharacterStateMachine"]
+script = ExtResource("7_2op07")
+
+[node name="dead" type="Node" parent="CharacterStateMachine"]
+script = ExtResource("7_n8kea")
+can_move = false
+
+[node name="DeadTimer" type="Timer" parent="CharacterStateMachine/dead"]
+one_shot = true
+
+[node name="HitState" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("damageable", "return_state", "dead_state")]
+script = ExtResource("8_2tkrm")
+damageable = NodePath("../../Damageable")
+return_state = NodePath("../walk")
+dead_state = NodePath("../dead")
+
+[node name="HitTimer" type="Timer" parent="CharacterStateMachine/HitState"]
+wait_time = 0.3
+one_shot = true
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+active = false
+deterministic = false
+tree_root = SubResource("AnimationNodeStateMachine_rdq7v")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_51kdx")
+}
+autoplay = "walk"
+
+[connection signal="timeout" from="CharacterStateMachine/dead/DeadTimer" to="CharacterStateMachine/dead" method="_on_dead_timer_timeout"]
