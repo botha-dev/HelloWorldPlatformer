@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcskvqgv7m0iu"]
+
+[ext_resource type="Texture2D" uid="uid://tso6ajiipg3p" path="res://assets/sprites/key-Sheet.png" id="1_mnvr0"]
+[ext_resource type="Script" path="res://scripts/gameplay-elements/key_pickup.gd" id="2_n8pvu"]
+[ext_resource type="PackedScene" uid="uid://bi047od4a2vau" path="res://Interactions/InteractionAreas/interaction_area.tscn" id="3_0sxdj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a00yf"]
+radius = 23.0
+height = 46.0
+
+[node name="Key" type="Sprite2D"]
+z_index = 3
+position = Vector2(2, 2)
+texture = ExtResource("1_mnvr0")
+hframes = 2
+vframes = 2
+frame = 1
+script = ExtResource("2_n8pvu")
+
+[node name="InteractionArea" parent="." instance=ExtResource("3_0sxdj")]
+action_name = "pickup"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("CapsuleShape2D_a00yf")
