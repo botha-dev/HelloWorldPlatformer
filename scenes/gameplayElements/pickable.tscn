@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cffqymrahg1wd"]
+
+[ext_resource type="Script" path="res://scripts/gameplay-elements/pickable.gd" id="1_nucfb"]
+
+[node name="Pickable" type="Node"]
+script = ExtResource("1_nucfb")

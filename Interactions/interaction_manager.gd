@@ -5,20 +5,18 @@ extends Node2D
 
 var can_interact : bool = true
 
-const base_text = "[E] to "
+const base_text = "[F] to "
  
 var active_areas: Array[InteractionArea] = []
 
 func register_area(area: InteractionArea):
-	active_areas.append(area)	
-	print_debug("area registered: " + area.name)
+	active_areas.append(area)		
 	
 func unregister_area(area: InteractionArea):
 	var index = active_areas.find(area)
 	
 	if index != -1:
-		active_areas.remove_at(index)
-		print_debug("area unregistered: " + area.name)
+		active_areas.remove_at(index)		
 
 func _process(delta: float):
 	if active_areas.size() > 0 && can_interact: 

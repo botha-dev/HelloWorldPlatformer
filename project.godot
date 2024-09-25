@@ -24,6 +24,7 @@ config/icon="res://icon.svg"
 Music="*res://scenes/music/music.tscn"
 SignalBus="*res://scripts/signal_bus.gd"
 InteractionManager="*res://Interactions/InteractionManager.tscn"
+InventoryManagement="*res://scripts/singletons/InventoryManagement.gd"
 
 [input]
 

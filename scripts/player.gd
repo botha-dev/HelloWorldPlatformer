@@ -10,6 +10,7 @@ extends CharacterBody2D
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction: Vector2 = Vector2.ZERO
+var player_inventory: Array[Inventory]
 
 var score: int : 
 	set(value):
@@ -21,6 +22,7 @@ var score: int :
 
 func _ready() -> void:
 	animation_tree.active = true	
+	InventoryManagement.connect("item_pickup", _on_item_pickup_add_to_inventory)
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -49,3 +51,12 @@ func update_sprite_facing_direction():
 func teleport_to_position(new_position: Vector2) -> void:
 	self.position = new_position
 	
+func _on_item_pickup_add_to_inventory(item: Pickable):
+	var inventory = Inventory.new()
+	inventory.is_key_item = item.is_key_item
+	inventory.item_name = item.item_name
+	inventory.item_description = item.item_description
+	inventory.item_category = item.item_category
+	
+	player_inventory.append(inventory)
+		

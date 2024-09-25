@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcskvqgv7m0iu"]
+[gd_scene load_steps=6 format=3 uid="uid://bcskvqgv7m0iu"]
 
 [ext_resource type="Texture2D" uid="uid://tso6ajiipg3p" path="res://assets/sprites/key-Sheet.png" id="1_mnvr0"]
 [ext_resource type="Script" path="res://scripts/gameplay-elements/key_pickup.gd" id="2_n8pvu"]
 [ext_resource type="PackedScene" uid="uid://bi047od4a2vau" path="res://Interactions/InteractionAreas/interaction_area.tscn" id="3_0sxdj"]
+[ext_resource type="PackedScene" uid="uid://cffqymrahg1wd" path="res://scenes/gameplayElements/pickable.tscn" id="3_0uxtb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a00yf"]
 radius = 23.0
@@ -16,6 +17,12 @@ hframes = 2
 vframes = 2
 frame = 1
 script = ExtResource("2_n8pvu")
+
+[node name="Pickable" parent="." instance=ExtResource("3_0uxtb")]
+item_name = "Key"
+item_description = "Item for Gate"
+item_category = "Keys"
+is_key_item = true
 
 [node name="InteractionArea" parent="." instance=ExtResource("3_0sxdj")]
 action_name = "pickup"
