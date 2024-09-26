@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://b5mcxr07mgps3"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_gs58d"]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_sti7l"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_67gld"]
+gradient = SubResource("Gradient_sti7l")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fj3yn"]
+size = Vector2(63.75, 64.2405)
+
+[node name="Gate" type="Sprite2D" groups=["gate"]]
+modulate = Color(0.098993, 0.0676726, 0.0702901, 1)
+z_index = 1
+material = SubResource("CanvasItemMaterial_gs58d")
+scale = Vector2(0.266667, 0.902857)
+texture = SubResource("GradientTexture2D_67gld")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1.875, -2.80576e-06)
+shape = SubResource("RectangleShape2D_fj3yn")

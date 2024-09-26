@@ -1,6 +1,6 @@
 extends State
 
-class_name PlayerDeadState
+#class_name PlayerDeadState
 
 @export var dead_node: String = "dead"
 @onready var dead_timer: Timer = $DeadTimer

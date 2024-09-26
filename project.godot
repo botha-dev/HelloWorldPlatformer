@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Global="*res://scripts/singletons/Global.gd"
 Music="*res://scenes/music/music.tscn"
 SignalBus="*res://scripts/signal_bus.gd"
 InteractionManager="*res://Interactions/InteractionManager.tscn"

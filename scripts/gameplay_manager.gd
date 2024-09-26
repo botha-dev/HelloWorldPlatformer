@@ -12,6 +12,16 @@ var area_container: Node2D
 func _ready() -> void:
 	area_container = get_tree().get_first_node_in_group("area_group")	
 	current_area = starting_area
+	
+	var key_pickup = get_tree().get_first_node_in_group("key_pickup")
+	var key_lock = get_tree().get_first_node_in_group("key_lock")
+	var gate = get_tree().get_first_node_in_group("gate")
+	
+	Global.player_controller = player	
+	Global.key = key_pickup
+	Global.lock = key_lock
+	Global.gate = gate
+	
 	next_area(0)
 	
 func next_area(goto_area: int):
